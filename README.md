@@ -1,5 +1,7 @@
 # freerunbuttons
 
+This page is best viewed at: [https://freerunbuttons.github.io/freerunbuttons/](https://freerunbuttons.github.io/freerunbuttons/)
+
 This started as a project at FHICT in Eindhoven for commit040 to create a Timing System for freerunners.
 
 The version in this repository is to be as simple as can be!
