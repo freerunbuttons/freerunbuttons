@@ -14,9 +14,10 @@ The code for the button can be found in dir 'ESP_3rd_gen'. Created with Aruino I
 
 ## Server
 
-A very simple (web)server is being built in Seaside for Pharo. 
+A very simple (web)server is being built in Seaside for Pharo.
 
 ## Issues still working on
 
-+ The site does not refresh automatically at the moment.
-+ The buttons need to sync time!
++ [The site does not refresh automatically at the moment](docs/auto-refresh)
+
++ [The buttons need to sync time](docs/timesync)
