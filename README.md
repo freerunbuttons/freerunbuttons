@@ -20,6 +20,6 @@ A simple (web)server is being built in Seaside for Pharo.
 
 ## Issues still working on
 
-+ [The site does not refresh automatically at the moment](docs/auto-refresh)
++ [The site does not refresh automatically at the moment](https://freerunbuttons.github.io/freerunbuttons/docs/auto-refresh)
 
-+ [The buttons need to sync time](docs/timesync)
++ [The buttons need to sync time](https://freerunbuttons.github.io/freerunbuttons/docs/timesync)
