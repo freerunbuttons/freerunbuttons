@@ -13,3 +13,8 @@ Ultimately we want to be independent of internet. Some options:
 
 + our server contains an NTP-service of its own (not necessarely synced to the innternet).
 + Button is synced with own server at the start (own protocol...?).
+
+## Looked/Looking at libraries
+
++ [ezTime](https://github.com/ropg/ezTime)
++ [NTPClient](https://github.com/arduino-libraries/NTPClient)

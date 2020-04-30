@@ -16,7 +16,7 @@ The code for the button can be found in dir 'ESP_3rd_gen'. Created with Aruino I
 
 ## Server
 
-A very simple (web)server is being built in Seaside for Pharo.
+A simple (web)server is being built in Seaside for Pharo.
 
 ## Issues still working on
 
