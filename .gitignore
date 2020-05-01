@@ -1,2 +1,6 @@
 *.dmp
 .DS_Store
+*.sources
+*.changes
+*.image
+pharo.version
