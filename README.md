@@ -13,9 +13,6 @@ The goal is first a system that works(!), after that it should be easy to use!
 
 ## Current issues
 
-+ [The site does not refresh automatically at the moment](https://freerunbuttons.github.io/freerunbuttons/docs/auto-refresh)
-(in Seaside on my old laptop that's fixed).
-
 
 + [The buttons need to sync time](https://freerunbuttons.github.io/freerunbuttons/docs/timesync)
 
@@ -28,5 +25,7 @@ Minor: At the moment there is no difference between the buttons: a click is a cl
 
 
 ## Server
+
++ [How to make sure the site refreshes automatically?](https://freerunbuttons.github.io/freerunbuttons/docs/auto-refresh)
 
 A simple (web)server for showing the times is being built in Seaside for Pharo. At the moment it uses my old laptop. In the near future I hope to switch to a raspberry.
