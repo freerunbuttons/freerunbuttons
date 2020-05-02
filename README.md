@@ -7,7 +7,7 @@ This page is best viewed at: [https://freerunbuttons.github.io/freerunbuttons/](
 however if you want to see/use the sources go to:
 [https://github.com/freerunbuttons/freerunbuttons](https://github.com/freerunbuttons/freerunbuttons).
 
-The version in this repository is to be as simple as can be!
+The goal is first a system that works(!), after that it should be easy to use!
 
 # Status
 
@@ -18,6 +18,7 @@ The version in this repository is to be as simple as can be!
 
 
 + [The buttons need to sync time](https://freerunbuttons.github.io/freerunbuttons/docs/timesync)
+
 
 ## Button
 
