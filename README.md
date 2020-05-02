@@ -16,10 +16,12 @@ The code for the button can be found in dir 'ESP_3rd_gen'. Created with Aruino I
 
 ## Server
 
-A simple (web)server is being built in Seaside for Pharo.
+A simple (web)server is being built in Seaside for Pharo. At the moment it uses my old laptop. In the near future I hope to switch to a raspberry.
 
 ## Issues still working on
 
 + [The site does not refresh automatically at the moment](https://freerunbuttons.github.io/freerunbuttons/docs/auto-refresh)
+(in Seaside on my old laptop that's fixed).
+
 
 + [The buttons need to sync time](https://freerunbuttons.github.io/freerunbuttons/docs/timesync)
