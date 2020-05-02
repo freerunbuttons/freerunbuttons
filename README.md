@@ -29,3 +29,7 @@ Minor: At the moment there is no difference between the buttons: a click is a cl
 + [How to make sure the site refreshes automatically?](https://freerunbuttons.github.io/freerunbuttons/docs/auto-refresh)
 
 A simple (web)server for showing the times is being built in Seaside for Pharo. At the moment it uses my old laptop. In the near future I hope to switch to a raspberry.
+
+## Ideas
+
++ Making a led blink every 10 seconds (when millisecs ends in 0000): this way you can easily see if the buttons are still in sync!
