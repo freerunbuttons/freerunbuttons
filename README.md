@@ -1,6 +1,9 @@
 # freerunbuttons
 
-This page is best viewed at: [https://freerunbuttons.github.io/freerunbuttons/](https://freerunbuttons.github.io/freerunbuttons/)
+This page is best viewed at: [https://freerunbuttons.github.io/freerunbuttons/](https://freerunbuttons.github.io/freerunbuttons/).
+
+If you want to see/use the sources go to:
+[https://github.com/freerunbuttons/freerunbuttons](https://github.com/freerunbuttons/freerunbuttons)
 
 This started as a project at FHICT in Eindhoven for commit040 to create a Timing System for freerunners.
 
