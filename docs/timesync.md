@@ -1,18 +1,11 @@
-# Time Sync
+# How to sync the buttons?
 
+To sync computers via the internet the so-called `NTP` is used.
+The freerunbuttons will contact `some server` (preferably the same server used for showing the Times?) and sync time via the ntp-protocol.
 
-For v1:
-When a button is turned on a (mobile) hotspot called 'abc' with connection to the internet should be in the air.
-The button will contact 'abc' and sync time via the ntp-protocol.
+Ultimately we want to be independent of internet.
 
-
-## NTP / internet
-
-Internet (more specific an 'ntp'-server) is needed for that.
-Ultimately we want to be independent of internet. Some options:
-
-+ our server contains an NTP-service of its own (not necessarely synced to the internet).
-+ Button is synced with own server at the start (own protocol...?).
++ our server acts as an NTP-service of its own (not necessarely synced to the internet).
 
 The ESPs in the buttons have to be as accurate as they can be, so we opt for a separate server!
 

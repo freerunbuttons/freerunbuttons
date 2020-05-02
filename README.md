@@ -14,7 +14,7 @@ The goal is first a system that works(!), after that it should be easy to use!
 ## Current issues
 
 
-+ [The buttons need to sync time](https://freerunbuttons.github.io/freerunbuttons/docs/timesync)
++ [How to sync the buttons?](https://freerunbuttons.github.io/freerunbuttons/docs/timesync)
 
 
 ## Button

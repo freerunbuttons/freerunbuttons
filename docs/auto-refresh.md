@@ -1,4 +1,6 @@
-# Times Page needs to auto-refresh
+# How to make sure the site refreshes automatically?
+
+In the Seaside server it is now fixed this way:
 
 ## Repeated AJAX calls in seaside
 
