@@ -3,7 +3,8 @@
 Additional:
 + The buttons need to be time synced to each other.
 the 'real' time!
-+ The buttons can use the raspberry as an `NTP server`.  + It's only about durations, so it does not need to be 'the `real` time'.
++ The buttons can use the raspberry as an `NTP server`.  
++ It's only about durations, so it does not need to be 'the `real` time'.
 + So we don't need to connect to the internet.
 
 Starting at:
@@ -22,6 +23,10 @@ For precise timing:
 + Use millis()
 + Don't let the chip go into low-power (is this an option?)
 + How long will a battery do when not going into low-power? TEST!
+
+[https://raspberrytips.com/time-sync-raspberry-pi/](https://raspberrytips.com/time-sync-raspberry-pi/)
+
+
 
 
 
