@@ -44,3 +44,6 @@ So for the NTP-service it would be nice to use a raspberry from the start.
 ### Raspberry as server
 
 + [https://pimylifeup.com/raspberry-pi-wireless-access-point/](https://pimylifeup.com/raspberry-pi-wireless-access-point/)
+
+### in dutch
+[trouw: Tot op de honderdste millimeter](https://www.trouw.nl/es-b71e8b8e)
