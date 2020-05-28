@@ -19,7 +19,9 @@ ESP8266WebServer server(80);
 
 
 void handleRoot() {
+  
   server.send(200, "text/html","<h1>You are connected</h1>");
+  Serial.print("X");
 }
 
 
@@ -28,9 +30,9 @@ void setup()
   delay(1000);
   Serial.begin(115200);
   Serial.println();
-  Serial.print("Setting soft-AP ... ");
+  Serial.println("Setting soft-AP ... ");
  
-  boolean result = WiFi.softAP(ssid, password);
+  boolean result = WiFi.softAP(ssid); //, password);
   if(result)
   {
     Serial.print("- SoftAP is Ready: ");
@@ -48,10 +50,17 @@ void setup()
 }
 
 
+int count = 0;
 
 void loop()
 {
   server.handleClient();
-  Serial.printf("Stations connected = %d\n", WiFi.softAPgetStationNum());
-  delay(3000);
+  ++count;
+  if (count % 100000 == 0) 
+  { 
+    Serial.println(millis()); 
+    Serial.printf("Stations connected = %d\n", WiFi.softAPgetStationNum());
+  }
+  //
+  //delay(3000);
 }
