@@ -24,6 +24,20 @@ void handleRoot() {
   Serial.print("X");
 }
 
+void handleBtn() {
+  String clientMsec = server.arg("msec");
+  String clientId  = server.arg("sender");
+  String previousResponseTime = server.arg("prevdur");
+  server.send(200, "text/plain", "a b c.");
+  Serial.print("Client_msec[ ");
+  Serial.print(clientMsec);
+  Serial.print(" ] - sender[ ");
+  Serial.print(clientId);
+  Serial.print(" ] - previous request duration [");
+  Serial.print(previousResponseTime);
+  Serial.println(" ] ");
+}
+
 
 void setup()
 {
@@ -32,7 +46,7 @@ void setup()
   Serial.println();
   Serial.println("Setting soft-AP ... ");
  
-  boolean result = WiFi.softAP(ssid); //, password);
+  boolean result = WiFi.softAP(ssid, password);
   if(result)
   {
     Serial.print("- SoftAP is Ready: ");
@@ -40,6 +54,7 @@ void setup()
     Serial.print("-              IP: ");
     Serial.println(WiFi.softAPIP());
     server.on("/", handleRoot);
+    server.on("/btn", handleBtn);
     server.begin();
     Serial.println("HTTP server started");
   }
@@ -56,10 +71,12 @@ void loop()
 {
   server.handleClient();
   ++count;
-  if (count % 100000 == 0) 
+  if (count % 1000000 == 0) 
   { 
-    Serial.println(millis()); 
+    Serial.print(millis()); 
+    Serial.print(" - ");
     Serial.printf("Stations connected = %d\n", WiFi.softAPgetStationNum());
+    Serial.println();
   }
   //
   //delay(3000);
