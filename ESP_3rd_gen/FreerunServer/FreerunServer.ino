@@ -35,6 +35,10 @@ void handleBtn() {
   Serial.print(clientId);
   Serial.print(" ] - previous request duration [");
   Serial.print(previousResponseTime);
+  Serial.print(" ] - diff client/server time [");
+  Serial.print( millis()  );
+  Serial.print( " - " );
+  Serial.print( millis() - atol(clientMsec.c_str()) );
   Serial.println(" ] ");
 }
 
