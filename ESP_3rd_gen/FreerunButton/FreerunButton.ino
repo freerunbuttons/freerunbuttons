@@ -16,13 +16,13 @@
 */
 
 //#include <ArduinoJson.h>
-#include <ezTime.h>
+//#include <ezTime.h>
 #include <ESP8266WiFi.h>          //https://github.com/esp8266/Arduino
 #include <WiFiClient.h>
 //#include <ESP8266HTTPClient.h>
 
 
-const char* ssid = "KBnetwork"; //Enter SSID
+const char* ssid = "FreerunButtons"; //Enter SSID
 const char* password = "0A0b0c0d0f"; //Enter Password
 
 int inputPin = D3;  // pushbutton connected to digital pin D3
@@ -31,11 +31,11 @@ int val = 0;        // variable to store the read value
 // Module Name : button ID
 const char* moduleName = "MODULE00003";
 
-const uint16_t port = 34005;
-const char* server_ip = "192.168.1.26";
+const uint16_t port = 80;
+const char* server_ip = "192.168.4.1";
 
 // ezTime
-Timezone Netherlands; 
+//Timezone Netherlands; 
 
 
 
@@ -46,7 +46,7 @@ WiFiClient client;
 void setup() {
 
   Serial.begin(115200);
-  WiFi.begin(ssid, password); 
+  WiFi.begin(ssid); //, password); 
   
   // initialize digital pin LED_BUILTIN as an output.
   pinMode(LED_BUILTIN, OUTPUT);
@@ -55,7 +55,7 @@ void setup() {
   pinMode(inputPin, INPUT);      // set pin as input
 
   connectToNetwork();
-  Netherlands.setPosix("CET-1CEST,M3.5.0/2,M10.5.0/3"); 
+//  Netherlands.setPosix("CET-1CEST,M3.5.0/2,M10.5.0/3"); 
 //  setServer(server_ip+":"+port+"/ntp");  
 //  waitForSync();
 }
@@ -69,7 +69,8 @@ void loop() {
 
   if (val == LOW) {
     
-    SendTimeStamp(Netherlands.dateTime("H_i_s_v"),WiFi.macAddress());
+//    SendTimeStamp(Netherlands.dateTime("H_i_s_v"),WiFi.macAddress());
+    SendTimeStamp( "122_23_24" /*Netherlands.dateTime("H_i_s_v") */ ,WiFi.macAddress());
     delay(5000);    
   }
 
@@ -82,7 +83,8 @@ bool SendTimeStamp(String timestamp, String deviceId) {
     return false;   
   }
   
-  client.println("GET /examples/btn/"+deviceId+"/time/"+timestamp+" HTTP/1.1");
+//  client.println("GET /examples/btn/"+deviceId+"/time/"+timestamp+" HTTP/1.1");
+  client.println("GET / HTTP/1.1");
   client.print("Host: ");
   client.println(server_ip);
   client.println("Connection: close");
@@ -93,7 +95,7 @@ bool SendTimeStamp(String timestamp, String deviceId) {
 
 
 void   connectToNetwork() {
-  WiFi.begin(ssid, password);
+  WiFi.begin(ssid); //, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     digitalWrite(LED_BUILTIN, val);  
