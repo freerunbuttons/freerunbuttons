@@ -8,48 +8,28 @@
 #include <ESP8266WiFiMulti.h>
 
 
-const char *ssid = "FreerunButtons";
-const char *password = "freerunforrestfreerun";   
+// ------  network stuff... --------------------------
+  const char *ssid = "FreerunButtons";
+  const char *password = "freerunforrestfreerun";   
 
-const char* host = "192.168.4.1";
-const uint16_t port = 80 ; 
+  const char* host = "192.168.4.1";   // base-ESP will get up at this IP. 
+  const uint16_t port = 80 ; 
 
-WiFiClient client;
-String btnId = "unknown"; 
-
-
-ESP8266WiFiMulti WiFiMulti;
-
-void setup() {
-  Serial.begin(115200);
-
-  // We start by connecting to a WiFi network
-  WiFi.mode(WIFI_STA);
-  WiFiMulti.addAP(ssid, password);
-
-  Serial.println();
-  Serial.println();
-  Serial.print("Wait for WiFi... ");
-
-  while (WiFiMulti.run() != WL_CONNECTED) {
-    Serial.print(millis());
-    Serial.print(".");
-    delay(1000);
-  }
-
-  Serial.println("");
-  Serial.print(millis());
-  Serial.println(" - WiFi connected");
-  Serial.println("IP address: ");
-  IPAddress ipAdr = WiFi.localIP();
-  btnId = ipAdr.toString();
-  Serial.println(btnId);
-
-  delay(500);
-}
+  WiFiClient client;
+  String btnId = "unknown"; 
+  ESP8266WiFiMulti WiFiMulti;
 
 
+// ------  button / timing stuff --------------------------
+  int inputPin = D3;  // pushbutton connected to digital pin D3
+  int val = 0;        // variable to store the read value
 
+  long pressMoment = -1;
+  long previousRespTime = -1;
+
+
+// ------  functionality --------------------------
+// return: responseTime
 long SendRequest(long msec, String btnId, long previousResponseTime) 
 {
   long startTime = millis();
@@ -70,30 +50,75 @@ long SendRequest(long msec, String btnId, long previousResponseTime)
 }
 
 
-long pressMoment = -1;
-long previousRespTime = -1;
+void connectToNetwork() {
+  val = HIGH;
+  digitalWrite(LED_BUILTIN, HIGH); 
+//-----
+  Serial.print("Wait for WiFi... ");
+  WiFi.mode(WIFI_STA);
+  WiFiMulti.addAP(ssid, password);
 
-
-
-void loop() {
-  Serial.print("connecting to ");
-  Serial.print(host);
-  Serial.print(':');
-  Serial.println(port);
-
-  // Use WiFiClient class to create TCP connections
-
-  if (!client.connect(host, port)) {
-    Serial.println("connection failed");
-    Serial.println("wait 5 sec...");
+  while (WiFiMulti.run() != WL_CONNECTED) {
+    digitalWrite(LED_BUILTIN, val);  
+    val = 1 - val;
+    Serial.print(millis());
+    Serial.print(".");
     delay(5000);
-    return;
   }
-  
-  pressMoment = millis();
-  previousRespTime = SendRequest(pressMoment , btnId, previousRespTime);
+  int blinkTime = 500;
+  // blink faster and faster to signal that network is connected
+  while (blinkTime > 0) {
+    delay(blinkTime);
+    digitalWrite(LED_BUILTIN, LOW);  
+    delay(blinkTime);
+    digitalWrite(LED_BUILTIN, HIGH);  
+    blinkTime = blinkTime - 25;
+    Serial.print(" - WiFi connected -> ");
+    Serial.println(millis());
+  }
+}
+
+bool isButtonDownNow() {
+  return LOW == digitalRead(inputPin);
+}
 
 
-  Serial.println("wait 1 sec...");
-  delay(1000);
+// ------  setup --------------------------
+void setup() {
+  Serial.begin(115200);
+  Serial.println();
+  Serial.println("---------------------------------------------------------------------");
+  Serial.println("--- SETUP ---");
+
+    // initialize i/o
+  pinMode(LED_BUILTIN, OUTPUT);   
+  pinMode(inputPin, INPUT);  
+  digitalWrite(LED_BUILTIN, LOW);  
+
+  connectToNetwork();  
+  IPAddress ipAdr = WiFi.localIP();
+  btnId = ipAdr.toString();
+  Serial.println(btnId);
+  Serial.print("connecting to " + String(host) + ":" + String(port));
+
+  delay(500);
+}
+
+
+
+// ------  loop --------------------------
+void loop() {
+  if (isButtonDownNow())
+  {
+    pressMoment = millis();
+    if (!client.connect(host, port)) {
+      Serial.println("connection failed");
+      Serial.println("*");
+      delay(1000);
+      return;
+    }
+    previousRespTime = SendRequest(pressMoment , btnId, previousRespTime);
+    Serial.print("<< DOWN >>");    
+    delay(2000);
+  } 
 }
