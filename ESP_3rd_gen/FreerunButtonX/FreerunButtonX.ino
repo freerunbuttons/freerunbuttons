@@ -16,29 +16,49 @@
   const uint16_t port = 80 ; 
 
   WiFiClient client;
-  String btnId = "unknown"; 
   ESP8266WiFiMulti WiFiMulti;
-
+  String btnId =  "-";  
+  String ip;
+  
 
 // ------  button / timing stuff --------------------------
   int inputPin = D3;  // pushbutton connected to digital pin D3
-  int val = 0;        // variable to store the read value
-
+  bool isLedOn = false;
   long pressMoment = -1;
   long previousRespTime = -1;
 
 
 // ------  functionality --------------------------
+
+bool isButtonDownNow() {
+  return LOW == digitalRead(inputPin);
+}
+
+
+void setLed(bool switchTo) 
+{
+    digitalWrite(LED_BUILTIN, switchTo ? HIGH : LOW);  
+}
+
+void EnsureButtonIdIsSet() 
+{
+  if (btnId == "-") 
+  {
+    btnId = String(random(1000000));
+  }
+}
+
 // return: responseTime
 long SendRequest(long msec, String btnId, long previousResponseTime) 
 {
   long startTime = millis();
-  String url 
-    = "/btn?msec="+ String(msec) 
-      + "&sender="+btnId
-      + "&prevdur="+previousResponseTime;
+  EnsureButtonIdIsSet();
+  String url = "/btn?msec="+ String(msec) 
+                + "&sender="+btnId
+                + "&prevdur="+previousResponseTime
+                + "&ip="+ip;
   client.print(String("GET ") + url + " HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "Connection: close\r\n\r\n");
-//  client.print(String("GET ") + url + " HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "Connection: keep-alive\r\n\r\n");
+  //  client.print(String("GET ") + url + " HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "Connection: keep-alive\r\n\r\n");
   //read back one line from server
   String line = client.readStringUntil('\r');
   Serial.println("closing connection");
@@ -46,21 +66,21 @@ long SendRequest(long msec, String btnId, long previousResponseTime)
   Serial.print("received from remote server [ ");
   Serial.print(line);
   Serial.println(" ]");
-  return millis() - startTime;
+  return millis() - startTime;   // responseTime will be sent to server with next request! 
 }
 
 
 void connectToNetwork() {
-  val = HIGH;
-  digitalWrite(LED_BUILTIN, HIGH); 
-//-----
+  isLedOn = true;
+  setLed(isLedOn);
   Serial.print("Wait for WiFi... ");
   WiFi.mode(WIFI_STA);
   WiFiMulti.addAP(ssid, password);
 
   while (WiFiMulti.run() != WL_CONNECTED) {
-    digitalWrite(LED_BUILTIN, val);  
-    val = 1 - val;
+    setLed(isLedOn );
+    
+    isLedOn = ! isLedOn;
     Serial.print(millis());
     Serial.print(".");
     delay(5000);
@@ -69,17 +89,13 @@ void connectToNetwork() {
   // blink faster and faster to signal that network is connected
   while (blinkTime > 0) {
     delay(blinkTime);
-    digitalWrite(LED_BUILTIN, LOW);  
+    setLed(false);
     delay(blinkTime);
-    digitalWrite(LED_BUILTIN, HIGH);  
+    setLed(true);
     blinkTime = blinkTime - 25;
     Serial.print(" - WiFi connected -> ");
     Serial.println(millis());
   }
-}
-
-bool isButtonDownNow() {
-  return LOW == digitalRead(inputPin);
 }
 
 
@@ -92,18 +108,17 @@ void setup() {
 
     // initialize i/o
   pinMode(LED_BUILTIN, OUTPUT);   
+  setLed(false);
   pinMode(inputPin, INPUT);  
-  digitalWrite(LED_BUILTIN, LOW);  
-
+  
   connectToNetwork();  
   IPAddress ipAdr = WiFi.localIP();
-  btnId = ipAdr.toString();
+  ip = ipAdr.toString();
   Serial.println(btnId);
   Serial.print("connecting to " + String(host) + ":" + String(port));
 
   delay(500);
 }
-
 
 
 // ------  loop --------------------------
