@@ -1,32 +1,32 @@
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
-#include <ESP8266WebServer.h> 
+#include <ESP8266WebServer.h>
 
 
-// Soft Access Point: 
+// Soft Access Point:
 // https://arduino-esp8266.readthedocs.io/en/latest/esp8266wifi/soft-access-point-examples.html
 //
-// WiFiAccessPoint: 
+// WiFiAccessPoint:
 // https://github.com/esp8266/Arduino/blob/master/libraries/ESP8266WiFi/examples/WiFiAccessPoint/WiFiAccessPoint.ino
 
 
 
 const char *ssid = "FreerunButtons";
 // passwd must have length >= 8 : https://github.com/esp8266/Arduino/issues/1141
-const char *password = "freerunforrestfreerun";   
- 
-ESP8266WebServer server(80); 
+const char *password = "freerunforrestfreerun";
 
-int lastContactMsec = 0; 
+ESP8266WebServer server(80);
+
+int lastContactMsec = 0;
 
 
 const int numberOfButtons = 3;
 const int bufferSize = numberOfButtons * 10;
-long pressedStore [bufferSize];  // circular array, 'crsr' pointing to next free cel. 
-int crsr = 0; 
+long pressedStore [bufferSize];  // circular array, 'crsr' pointing to next free cel.
+int crsr = 0;
 
 
-void clearStore() 
+void clearStore()
 {
   for(int i=0 ; i < bufferSize ; ++i )
   {
@@ -35,16 +35,16 @@ void clearStore()
 }
 
 
-void addPress(long timeOfPress) 
+void addPress(long timeOfPress)
 {
-  pressedStore[crsr] = timeOfPress ;         // not yet very precise... 
+  pressedStore[crsr] = timeOfPress ;         // not yet very precise...
   ++crsr;
 }
 
 
-//  pressedStore[i] = 0;  // fake time to begin with. 
-//  pressedStore[i] = 0;  // fake time to begin with. 
-//  pressedStore[i] = 0;  // fake time to begin with. 
+//  pressedStore[i] = 0;  // fake time to begin with.
+//  pressedStore[i] = 0;  // fake time to begin with.
+//  pressedStore[i] = 0;  // fake time to begin with.
 
 
 void showStore()
@@ -52,9 +52,9 @@ void showStore()
   Serial.println();
   for(int i=0 ; i < bufferSize ; ++i )
   {
-    if (i == crsr) { Serial.print(" [[[ "); } 
+    if (i == crsr) { Serial.print(" [[[ "); }
     Serial.print(pressedStore[i]);
-    if (i == crsr) { Serial.print(" ]]] "); } 
+    if (i == crsr) { Serial.print(" ]]] "); }
     Serial.print(".");
   }
   Serial.println();
@@ -63,7 +63,7 @@ void showStore()
 
 
 void handleRoot() {
-  
+
   server.send(200, "text/html","<h1>You are connected</h1>");
   Serial.print("X");
 }
@@ -71,7 +71,7 @@ void handleRoot() {
 
 void prn(String name, String value) {
   Serial.print(" "+name+": ");
-  Serial.print(value); 
+  Serial.print(value);
 }
 
 
@@ -82,7 +82,7 @@ void showTimes()
   Serial.println();
   Serial.println("---------------------------------------------");
   Serial.println();
-  int t1Index = ((crsr - 1) / 3) * 3; 
+  int t1Index = ((crsr - 1) / 3) * 3;
   long t1 = pressedStore[ t1Index ];
   long t2 = pressedStore[ t1Index + 1 ];
   long t3 = pressedStore[ t1Index + 2 ];
@@ -91,14 +91,14 @@ void showTimes()
   prn("crsr", String(crsr));
   prn("t1Index", String(t1Index));
   switch( crsr % 3 ) {
-    case 1:   
+    case 1:
               Serial.println("-- Started --");
-              break; 
-    case 2:   
+              break;
+    case 2:
               prn("Halftime   ", String( halfTime ));
               Serial.println();
-              break; 
-    case 0: 
+              break;
+    case 0:
               prn("Halftime   ", String( halfTime ));
               Serial.println();
               prn("Endtime    ", String( endTime ));
@@ -130,7 +130,7 @@ void handleBtn() {
   prn("buttonIP", buttonIP );
   Serial.println();
   lastContactMsec = serverMsec;
-  long serverTimeOfPress = clientMsec + offset; 
+  long serverTimeOfPress = clientMsec + offset;
   addPress(serverTimeOfPress);
   showTimes();
 }
@@ -142,7 +142,7 @@ void setup()
   Serial.begin(115200);
   Serial.println();
   Serial.println("Setting soft-AP ... ");
- 
+
   boolean result = WiFi.softAP(ssid, password);
   if(result)
   {
@@ -160,9 +160,9 @@ void setup()
     Serial.println("- Setting up Soft Access Point Failed! ----- PLEASE RESTART -----");
   }
   clearStore();
-  addPress(1);  // fake data to test with... 
-  addPress(3);  // fake data to test with... 
-  addPress(8);  // fake data to test with... 
+  addPress(1);  // fake data to test with...
+  addPress(3);  // fake data to test with...
+  addPress(8);  // fake data to test with...
 }
 
 
@@ -173,7 +173,7 @@ int numsoftAPConnectedStations = -1;
 
 bool isLongerThanXSecondsApart(long moment1, long moment2, long seconds) {
   long duration = moment1 < moment2  ?  moment2 - moment1  :  moment1 - moment2 ;
-  return duration > 1000 * seconds ;  
+  return duration > 1000 * seconds ;
 }
 
 
@@ -181,11 +181,11 @@ void loop()
 {
   server.handleClient();
   ++count;
-  if (count % 1000000 == 0) 
-  { 
-    // WiFi.softAPgetStationNum() changes ? Then print! 
+  if (count % 1000000 == 0)
+  {
+    // WiFi.softAPgetStationNum() changes ? Then print!
     int num = WiFi.softAPgetStationNum();
-    if  (num != numsoftAPConnectedStations || isLongerThanXSecondsApart(lastContactMsec, millis(), 60) ) 
+    if  (num != numsoftAPConnectedStations || isLongerThanXSecondsApart(lastContactMsec, millis(), 60) )
     {
       numsoftAPConnectedStations = num;
       lastContactMsec = millis();
