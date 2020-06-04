@@ -1,13 +1,23 @@
+#ifdef ESP8266
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
-
+ESP8266WebServer server(80);
+#else
+#include <WiFi.h>             
+#include <WiFiClient.h>
+#include <WebServer.h>
+WebServer server(80);
+#endif
 
 // Soft Access Point:
 // https://arduino-esp8266.readthedocs.io/en/latest/esp8266wifi/soft-access-point-examples.html
 //
 // WiFiAccessPoint:
 // https://github.com/esp8266/Arduino/blob/master/libraries/ESP8266WiFi/examples/WiFiAccessPoint/WiFiAccessPoint.ino
+//
+// Porting to ESP32
+// https://github.com/zhouhan0126/WebServer-esp32/blob/master/examples/HelloServer/HelloServer.ino
 
 
 
@@ -15,7 +25,7 @@ const char *ssid = "FreerunButtons";
 // passwd must have length >= 8 : https://github.com/esp8266/Arduino/issues/1141
 const char *password = "freerunforrestfreerun";
 
-ESP8266WebServer server(80);
+
 
 int lastContactMsec = 0;
 
@@ -88,8 +98,10 @@ void showTimes()
   long t3 = pressedStore[ t1Index + 2 ];
   long halfTime = t2 - t1;
   long endTime  = t3 - t1;
-  prn("crsr", String(crsr));
-  prn("t1Index", String(t1Index));
+//  prn("crsr", String(crsr));
+//  Serial.println();
+//  prn("t1Index", String(t1Index));
+//  Serial.println();
   switch( crsr % 3 ) {
     case 1:
               Serial.println("-- Started --");
