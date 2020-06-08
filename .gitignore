@@ -5,3 +5,5 @@
 *.image
 pharo.version
 *.ombu
+*.ph
+*.mcz
