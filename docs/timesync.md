@@ -21,6 +21,14 @@ Example chip : [Dallas DS3231](https://datasheets.maximintegrated.com/en/ds/DS32
 Besides(!) there is an `arduino-command` called `millis()`, which returns the value of a counter based on the processor clock that _is_ accurate as long as the processor is on full power and not in standby!
 So the challenge is to keep the processor out of `low-power mode`.
 
+
+In low power the processor often gets for example 100 kHz or even less instead of 40 MHz. This way it uses something like 1000 times less power, but an internal oscillator is used that is less accurate, 50% (ie. 500000 ppm).
+
+For this processor we don't know exactly but maybe
+[this](https://www.google.com/search?rlz=1C1JZAP_nlNL887NL887&sxsrf=ALeKk00xnoIgFe276arb4PE2m7Lu-IuDfg:1588448422803&source=univ&tbm=isch&q=esp+hardware+diagram&sa=X&ved=2ahUKEwiYw_C_95XpAhXO2KQKHZcMAPkQsAR6BAgKEAE&biw=1920&bih=937#imgrc=7MjA7sQrb6KGrM)
+helps. 
+
+
 ## NTP or Network Time Protocol
 
 To sync computers via the internet often the so-called `NTP` is used. The freerunbuttons at first was thought to contact `some server` (preferably the same server used for showing the Times?) and sync time via the ntp-protocol.
