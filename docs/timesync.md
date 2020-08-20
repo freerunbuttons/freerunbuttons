@@ -1,5 +1,16 @@
 # How to sync the buttons?
 
+## Chosen solution for syncing the buttons!
+
+(for more info on the challenges solves here read the next sections).
+
+The `server` and also every button has a separate time (get it by calling `millis()`). When a button is pressed it sends its own ID and the `millis()`. Furthermore it computes the time until the response, thus knowing how long the request took. Every next time the `previous response time` is sent to the server. Because normally the response time is in the order of 20 msecs, the server knows that the accuracy is the same.
+
+Every time but the first the server is capable of estimating what the difference is between the `server-millis()` and the `button-millis()` (for THIS button!). Once the server has a Dictionary with these differences (offsets) it can compute (~estimate, because of the response time) the `server time` at the moment the button was pressed.
+
+
+## About early challenge
+
 ```
 Update: Using NTP from an ESP is not accurate enough!:
 The RTC (Real Time Clock) in an ESP is not
@@ -11,7 +22,8 @@ the value of the millis. This will be accurate
 on the second, but not on the millisecond...
 ```
 
-## About RTC : Realtime Clock
+## About RTC (Realtime Clock) and the problems involved
+
 
 In the `embedded world` this means a clock giving the time of day, for example `21:22:01`,
 possibly including date. Often there is an extra chip that has its own battery to make sure the time keeps on ticking when the device is off or in standby. So it's not `Realtime` as in `Realtime Linux`.
@@ -26,7 +38,7 @@ In low power the processor often gets for example 100 kHz or even less instead o
 
 For this processor we don't know exactly but maybe
 [this](https://www.google.com/search?rlz=1C1JZAP_nlNL887NL887&sxsrf=ALeKk00xnoIgFe276arb4PE2m7Lu-IuDfg:1588448422803&source=univ&tbm=isch&q=esp+hardware+diagram&sa=X&ved=2ahUKEwiYw_C_95XpAhXO2KQKHZcMAPkQsAR6BAgKEAE&biw=1920&bih=937#imgrc=7MjA7sQrb6KGrM)
-helps. 
+helps.
 
 
 ## NTP or Network Time Protocol
