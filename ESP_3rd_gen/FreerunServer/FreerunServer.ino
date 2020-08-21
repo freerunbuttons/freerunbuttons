@@ -131,7 +131,7 @@ void handleBtn() {
   String clientId  = server.arg("sender");
   String previousResponseTime = server.arg("prevdur");
   String buttonIP = server.arg("ip");
-  server.send(200, "text/plain", "a b c.");
+  server.send(200, "text/plain", "a b c.");  // the a b c can be replaced by your own info, but if you read it the response takes a lot longer! 
   Serial.print("--> ButtonPress ");
   prn( "button", clientId);
   prn("previousRequestDuration", previousResponseTime);
