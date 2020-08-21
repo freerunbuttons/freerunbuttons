@@ -3,9 +3,11 @@
     You must run a TCP server in your local network.
     For example, on Linux you can use this command: nc -v -l 3000
 */
-
+// #ifdef ESP8266
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
+// #endif
+
 
 
 // ------  network stuff... --------------------------
@@ -61,10 +63,25 @@ long SendRequest(long msec, String btnId, long previousResponseTime)
   //  client.print(String("GET ") + url + " HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "Connection: keep-alive\r\n\r\n");
   //read back one line from server
   String line = client.readStringUntil('\r');
+//  String line2 = client.readStringUntil('\r');  // when these readStrings are commented out a request takes around 10 msec, 
+//  String line3 = client.readStringUntil('\r');  // otherwise 5000 msec. (the returning info is in 'line6', but we don't need that per se). 
+//  String line4 = client.readStringUntil('\r');
+//  String line5 = client.readStringUntil('\r');
+//  String line6 = client.readStringUntil('\r');
   Serial.println("closing connection");
   client.stop();
   Serial.print("received from remote server [ ");
-  Serial.print(line);
+//  Serial.print(line);
+//  Serial.print(" ]-[ ");
+//  Serial.print(line2);  
+//  Serial.print(" ]--[");
+//  Serial.print(line3);  
+//  Serial.print(" ]---[");
+//  Serial.print(line4);  
+//  Serial.print(" ]---[");
+//  Serial.print(line5);  
+//  Serial.print(" ]---[");
+//  Serial.print(line6);  
   Serial.println(" ]");
   return millis() - startTime;   // responseTime will be sent to server with next request! 
 }
