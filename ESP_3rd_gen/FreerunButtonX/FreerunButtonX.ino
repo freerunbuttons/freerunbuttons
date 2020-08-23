@@ -3,10 +3,12 @@
     You must run a TCP server in your local network.
     For example, on Linux you can use this command: nc -v -l 3000
 */
-// #ifdef ESP8266
+#ifdef ESP8266
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
-// #endif
+#else
+#include <WiFi.h>
+#endif
 
 
 
